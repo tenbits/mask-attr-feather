@@ -1,0 +1,93 @@
+{
+    "name": "mask-attr-feather",
+    "description": "Feather Icons auto-initializer attribute",
+    "author": {
+        "name": "Alexander Kit",
+        "email": "alex.kit@atmajs.com"
+    },
+    "version": "0.2.84",
+    "main": "./lib/attr.js",
+    "types": "./lib/attr.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/tenbits/attr.git"
+    },
+    "devDependencies": {
+        "@types/node": "^12.12.6",
+        "@types/sinon": "^2.3.3",
+        "app-bundler": "0.0.75",
+        "atma": "^0.12.9",
+        "atma-io": "^1.2.37",
+        "atma-loader-ts": "^1.1.11",
+        "dts-bundle": "^0.7.3"
+    },
+    "scripts": {
+        "test": "atma test",
+        "build": "app-bundler && npm run build-dts",
+        "watch": "app-bundler --watch",
+        "server": "atma server",
+        "build-dts": "tsc -p tsconfig-build.json && atma run tools/build-dts",
+        "release": "echo \"Run atma pub -m \"message\"\""
+    },
+    "license": "MIT",
+    "app-bundler": {
+        "file": "src/export.ts",
+        "outputMain": "lib/attr.js",
+        "package": {
+            "module": "commonjs",
+            "moduleName": "alot",
+            "moduleWrapper": "umd",
+            "commonjs": {
+                "output": "simplified"
+            }
+        },
+        "extensions": {
+            "io": {
+                "type": "js"
+            }
+        },
+        "defaultExtensions": {
+            "js": "ts"
+        },
+        "middlewares": {
+            "ts": [
+                "atma-loader-ts:read"
+            ]
+        }
+    },
+    "atma": {
+        "atma-utest": {
+            "include": {
+                "amd": true
+            }
+        },
+        "plugins": [
+            "atma-loader-ts"
+        ],
+        "settings": {
+            "include": {
+                "amd": true,
+                "extentionDefault": {
+                    "js": "ts"
+                }
+            },
+            "atma-loader-ts": {
+                "extensions": [
+                    "test",
+                    "ts"
+                ],
+                "typescript": {
+                    "compilerOptions": {
+                        "#if (TEST)": {
+                            "module": "AMD"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "peerDependencies": {
+        "feather-icons": ">=4.28.0",
+        "maskjs": "^0.72.25"
+    }
+}
